@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="color-scheme" content="light dark">
+<title>IBF Gestão de Performance</title>
+<style>
+:root{--ink:#0b0b0b;--paper:#f4f4f2;--mid:#8a8a8a;--line:rgba(255,255,255,.16);--line-l:rgba(0,0,0,.16);--f:Arial,Helvetica,"Helvetica Neue",sans-serif;color-scheme:light dark}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--ink);color:#fff;font-family:var(--f);font-size:16px;line-height:1.5;overflow-x:hidden}
+button,a{font:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
+button{background:none;border:0;cursor:pointer}
+a{text-decoration:none}
+:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.wrap{max-width:520px;margin:0 auto;padding:0 20px}
+.h-view{display:none}
+.h-view.on{display:block;animation:hin .6s cubic-bezier(.2,.7,.2,1) both}
+@keyframes hin{from{opacity:.3;transform:translateY(12px)}to{opacity:1;transform:none}}
+.h-pad{padding-top:48px;padding-bottom:92px}
+.dark{background:var(--ink);color:#fff}
+.light{background:var(--paper);color:var(--ink)}
+.kick{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;gap:10px}
+.kick::after{content:"";height:1px;flex:1;background:currentColor;opacity:.3}
+.h-home{padding:28px 0 48px}
+.head{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:center;margin:34px 0 30px;padding:22px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.ibf{font-size:clamp(84px,27vw,132px);line-height:.8;font-weight:900;letter-spacing:-.05em}
+.htxt{min-width:0}
+.htxt .h1b{margin:0;font-size:clamp(22px,6.6vw,32px)}
+.htxt .lead{font-size:13px;margin-top:10px;opacity:.7}
+.topbar{display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.topbar span:last-child{opacity:.5}
+.h1{font-size:clamp(60px,20vw,104px);line-height:.88;font-weight:900;letter-spacing:-.04em;margin:26px 0 8px}
+.h1b{display:block;font-size:clamp(28px,9vw,44px);line-height:1;font-weight:300;letter-spacing:-.02em;margin-top:12px}
+.lead{font-size:16px;opacity:.78;max-width:42ch;margin-top:14px}
+.hero3d{height:230px;margin:18px 0 0;perspective:900px;display:flex;align-items:center;justify-content:center;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.hero3d:active{cursor:grabbing}
+.stack{position:relative;width:260px;height:130px;margin-bottom:26px;transform-style:preserve-3d;transform:rotateX(-22deg) rotateY(var(--ry,30deg))}
+.pil{position:absolute;bottom:0;width:36px;height:130px;transform-style:preserve-3d;transform-origin:50% 100%;transform:scaleY(var(--s,.04));transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.pil i{position:absolute;display:block}
+.pil .f{inset:0;transform:translateZ(18px);background:var(--c1)}
+.pil .k{inset:0;transform:rotateY(180deg) translateZ(18px);background:var(--c1)}
+.pil .r,.pil .l{width:36px;height:130px;left:0;top:0;background:var(--c2)}
+.pil .r{transform:rotateY(90deg) translateZ(18px)}
+.pil .l{transform:rotateY(-90deg) translateZ(18px)}
+.pil .u{left:0;top:-18px;width:36px;height:36px;transform:rotateX(90deg);background:var(--c3)}
+.hint{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.45;text-align:center;margin-bottom:26px}
+.choice{display:block;width:100%;text-align:left;border:1px solid var(--line);padding:26px 20px 22px;margin-top:14px;position:relative;transition:background .35s,color .35s,border-color .35s}
+.choice small{display:block;font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.55}
+.choice b{display:block;font-size:clamp(34px,11vw,48px);font-weight:900;letter-spacing:-.03em;line-height:1;margin:10px 0 6px}
+.choice span{display:block;font-size:14px;opacity:.7;max-width:34ch}
+.choice .go{position:absolute;right:20px;top:22px;font-size:24px;line-height:1;transition:transform .35s}
+.choice .stat{display:flex;gap:18px;margin-top:16px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;opacity:.85}
+.choice .stat strong{display:block;font-size:20px;font-weight:900;letter-spacing:-.02em;opacity:1}
+.choice:hover,.choice:active{background:#fff;color:var(--ink);border-color:#fff}
+.choice:hover .stat,.choice:active .stat{border-color:var(--line-l)}
+.choice:hover .go,.choice:active .go{transform:translateX(4px)}
+.steps{margin-top:26px;border-top:1px solid var(--line-l)}
+.step{display:grid;grid-template-columns:34px 1fr;gap:10px;padding:18px 0;border-bottom:1px solid var(--line-l)}
+.step i{font-style:normal;font-size:13px;font-weight:700;opacity:.5}
+.step b{display:block;font-size:18px;font-weight:900;letter-spacing:-.01em}
+.step span{font-size:14px;opacity:.7}
+.h2{font-size:clamp(30px,9vw,42px);line-height:1;font-weight:900;letter-spacing:-.02em;margin:18px 0 12px}
+.ask{display:grid;grid-template-columns:1fr auto;gap:4px 12px;width:100%;text-align:left;padding:18px 0;border-bottom:1px solid var(--line-l);align-items:center}
+.ask:first-of-type{border-top:1px solid var(--line-l)}
+.ask small{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;opacity:.55;grid-column:1/-1}
+.ask b{font-size:18px;font-weight:900;letter-spacing:-.01em;line-height:1.2}
+.ask i{font-style:normal;font-size:22px}
+.foot{background:var(--paper);color:var(--ink);padding:0 0 40px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+.foot .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line-l);padding-top:24px}
+.foot span:last-child{opacity:.5}
+
+/* barra superior (só nos painéis) */
+.nav{position:fixed;top:0;left:0;right:0;z-index:20;height:48px;background:rgba(11,11,11,.9);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:none}
+.nav.on{display:block}
+.nav .wrap{height:48px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:0 16px}
+.nav .back{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;padding:10px 4px;opacity:.8}
+.seg{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.seg button{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;padding:8px 14px;opacity:.65;transition:background .3s,color .3s,opacity .3s}
+.seg button[aria-selected="true"]{background:#fff;color:var(--ink);opacity:1}
+
+/* barra de resposta (WhatsApp) */
+.reply{position:fixed;left:0;right:0;bottom:0;z-index:20;background:rgba(11,11,11,.94);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:none;padding-bottom:env(safe-area-inset-bottom)}
+.reply.on{display:block}
+.reply .wrap{padding:10px 16px 12px}
+.reply p span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.reply p span:last-child{white-space:nowrap}.reply p{font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.6;margin-bottom:8px;display:flex;justify-content:space-between;gap:10px}
+.reply .row{display:grid;grid-template-columns:1.25fr 1fr;gap:8px}
+.reply a{display:block;text-align:center;font-size:13px;font-weight:900;letter-spacing:.02em;padding:13px 10px;border:1px solid #fff;border-radius:2px;transition:background .3s,color .3s}
+.reply a.yes{background:#fff;color:var(--ink)}
+.reply a.no{background:transparent;color:#fff;border-color:var(--line)}
+.reply a:active{opacity:.75}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<div class="h-view on" id="v-home">
+ <section class="dark h-home"><div class="wrap">
+  <div class="topbar"><span>VOLTZ MEDIA</span><span>Nov 2026</span></div>
+  <div class="head">
+   <div class="ibf">IBF</div>
+   <div class="htxt"><h1 class="h1b">gestão de<br>performance</h1><p class="lead">Os resultados dos seus anúncios em um só lugar. Escolha a plataforma.</p></div>
+  </div>
+  <button class="choice" data-go="meta"><small>Instagram e Facebook</small><b>Meta Ads</b><span>Quem viu a IBF, quem foi ao perfil e quem chamou no WhatsApp.</span><i class="go">→</i>
+   <div class="stat"><div><strong>31.701</strong>pessoas alcançadas</div><div><strong>R$ 6,29</strong>por mil vezes</div></div></button>
+  <button class="choice" data-go="google"><small>Busca no Google</small><b>Google Ads</b><span>Quem procurou telha em Fortaleza e entrou em contato.</span><i class="go">→</i>
+   <div class="stat"><div><strong>152</strong>contatos</div><div><strong>R$ 12,11</strong>por contato</div></div></button>
+ </div></section>
+ <section class="light" style="padding:56px 0 48px"><div class="wrap">
+  <div class="kick">Como funciona</div>
+  <div class="steps">
+   <div class="step"><i>01</i><div><b>Escolha a plataforma</b><span>Meta ou Google. Os dois estão aqui dentro.</span></div></div>
+   <div class="step"><i>02</i><div><b>Veja os resultados</b><span>Gráficos para girar com o dedo e o que foi feito no período.</span></div></div>
+   <div class="step"><i>03</i><div><b>Responda no WhatsApp</b><span>Toque em Sim ou Agora não, no rodapé. Abre a conversa com a VOLTZ já escrita.</span></div></div>
+  </div>
+  <div style="margin-top:40px"><div class="kick">Pedidos para você</div>
+   <button class="ask" data-go="meta"><small>Meta Ads</small><b>Recarga de cerca de R$ 100 e, se quiser, reforço para R$ 20 por dia</b><i>→</i></button>
+   <button class="ask" data-go="google"><small>Google Ads</small><b>Reforço de R$ 76,67 para R$ 85 por dia</b><i>→</i></button>
+  </div>
+ </div></section>
+ <div class="foot"><div class="wrap"><span>VOLTZ MEDIA</span><span>Fortaleza · Confidencial · IBF</span></div></div>
+</div>
+<div class="h-view h-pad" id="v-meta"></div>
+<div class="h-view h-pad" id="v-google"></div>
+<div class="nav" id="nav"><div class="wrap">
+ <button class="back" data-go="home">← Início</button>
+ <div class="seg" role="tablist" aria-label="Plataforma"><button role="tab" data-go="meta" aria-selected="false">Meta</button><button role="tab" data-go="google" aria-selected="false">Google</button></div>
+</div></div>
+<div class="reply" id="reply"><div class="wrap">
+ <p><span id="rq">Pedido</span><span>Resposta no WhatsApp</span></p>
+ <div class="row"><a class="yes" id="ry" target="_blank" rel="noopener">Sim, pode seguir</a><a class="no" id="rn" target="_blank" rel="noopener">Agora não</a></div>
+</div></div>
+
+<template id="t-meta"><style>
+/* Layout idea: sanduíche VOLTZ (escuro/claro), monocromático, 3D em CSS puro, mobile first */
+:host{
+  --ink:#0b0b0b;
+  --paper:#f4f4f2;
+  --mid:#8a8a8a;
+  --line:rgba(255,255,255,.16);
+  --line-l:rgba(0,0,0,.16);
+  --f:Arial,Helvetica,"Helvetica Neue",sans-serif;
+  color-scheme:light dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+.root{background:var(--ink);color:#fff;font-family:var(--f);font-size:16px;line-height:1.5;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.wrap{max-width:520px;margin:0 auto;padding:0 20px}
+section{padding:64px 0}
+.dark{background:var(--ink);color:#fff}
+.light{background:var(--paper);color:var(--ink)}
+.kick{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;gap:10px}
+.kick::after{content:"";height:1px;flex:1;background:currentColor;opacity:.3}
+h1,h2,h3{font-weight:900;letter-spacing:-.02em;text-wrap:balance}
+h1{font-size:clamp(52px,17vw,88px);line-height:.92;margin:22px 0 14px}
+h2{font-size:clamp(30px,9vw,42px);line-height:1;margin:18px 0 12px}
+h3{font-size:18px;line-height:1.2}
+p.lead{font-size:16px;opacity:.78;max-width:46ch}
+.mut{opacity:.6}
+.rule{height:1px;background:var(--line);margin:28px 0}
+.light .rule{background:var(--line-l)}
+.note{font-size:12px;opacity:.55;margin-top:16px;line-height:1.5}
+
+/* entrada fluida: parte sempre de um estado visível */
+.rv.in{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:.25;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ---------- CAPA ---------- */
+.cover{padding:28px 0 56px;min-height:0}
+.topbar{display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.topbar span:last-child{opacity:.5}
+.hero3d{height:230px;margin:26px 0 8px;perspective:900px;display:flex;align-items:center;justify-content:center;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.hero3d:active{cursor:grabbing}
+.stack{position:relative;width:230px;height:150px;margin-bottom:30px;transform-style:preserve-3d;transform:rotateX(-20deg) rotateY(var(--ry,30deg))}
+.pil{position:absolute;bottom:0;width:38px;height:150px;transform-style:preserve-3d;transform-origin:50% 100%;transform:scaleY(var(--s,.04));transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.pil i{position:absolute;display:block}
+.pil .f{inset:0;transform:translateZ(19px);background:var(--c1)}
+.pil .k{inset:0;transform:rotateY(180deg) translateZ(19px);background:var(--c1)}
+.pil .r,.pil .l{width:38px;height:150px;left:0;top:0;background:var(--c2)}
+.pil .r{transform:rotateY(90deg) translateZ(19px)}
+.pil .l{transform:rotateY(-90deg) translateZ(19px)}
+.pil .u{left:0;top:-19px;width:38px;height:38px;transform:rotateX(90deg);background:var(--c3)}
+.hint{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.45;text-align:center}
+.sub{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.chip{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:8px 12px;border-radius:999px}
+.light .chip{border-color:var(--line-l)}
+
+/* ---------- KPIs ---------- */
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:0;margin-top:26px;border-top:1px solid var(--line-l)}
+.kpi{padding:22px 0 20px;border-bottom:1px solid var(--line-l)}
+.kpi:nth-child(odd){padding-right:16px;border-right:1px solid var(--line-l)}
+.kpi:nth-child(even){padding-left:18px}
+.kpi b{display:block;font-size:clamp(30px,9.5vw,44px);font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.kpi span{display:block;font-size:12px;margin-top:8px;opacity:.6;line-height:1.35}
+
+/* ---------- COMPARATIVO 3D ---------- */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 0 6px;margin:22px -20px 0;padding-left:20px;padding-right:20px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:11px 15px;border:1px solid var(--line);border-radius:999px;opacity:.7;transition:background .35s,color .35s,opacity .35s,border-color .35s}
+.tab[aria-selected="true"]{background:#fff;color:var(--ink);opacity:1;border-color:#fff}
+.scene{height:300px;perspective:1000px;margin:10px 0 0;display:flex;justify-content:center;align-items:flex-end;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;overflow:hidden}
+.scene:active{cursor:grabbing}
+.world{position:relative;width:300px;height:200px;margin-bottom:46px;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(var(--sy,-28deg))}
+.floor{position:absolute;left:-30px;top:200px;width:360px;height:260px;transform-origin:50% 0;transform:rotateX(90deg);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:30px 30px;border:1px solid var(--line)}
+.col{position:absolute;bottom:0;width:70px;height:200px;transform-style:preserve-3d;transform-origin:50% 100%;transform:scaleY(var(--s,1));transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.col.a{left:58px}
+.col.b{left:172px}
+.col i{position:absolute;display:block}
+.col .f{inset:0;transform:translateZ(35px)}
+.col .k{inset:0;transform:rotateY(180deg) translateZ(35px)}
+.col .r,.col .l{width:70px;height:200px;left:0;top:0}
+.col .r{transform:rotateY(90deg) translateZ(35px)}
+.col .l{transform:rotateY(-90deg) translateZ(35px)}
+.col .u{left:0;top:-35px;width:70px;height:70px;transform:rotateX(90deg)}
+.col.a .f,.col.a .k{background:#6a6a6a}.col.a .r,.col.a .l{background:#474747}.col.a .u{background:#8c8c8c}
+.col.b .f,.col.b .k{background:#f1f1f1}.col.b .r,.col.b .l{background:#b4b4b4}.col.b .u{background:#fff}
+.vals{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.val{padding:18px 0}
+.val:first-child{padding-right:14px;border-right:1px solid var(--line)}
+.val:last-child{padding-left:18px}
+.val small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+.val b{display:block;font-size:clamp(26px,8vw,34px);font-weight:900;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums}
+.val em{font-style:normal;font-size:12px;opacity:.5}
+.delta{margin-top:6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px}
+.delta b{font-size:clamp(44px,14vw,64px);font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.delta span{font-size:14px;opacity:.7;max-width:26ch}
+
+/* ---------- LINHA DO TEMPO ---------- */
+.tl{margin-top:26px;border-left:1px solid var(--line-l);margin-left:5px}
+.tl li{list-style:none;position:relative;padding:0 0 28px 24px}
+.tl li::before{content:"";position:absolute;left:-6px;top:6px;width:11px;height:11px;background:var(--ink);border-radius:50%}
+.tl li.now::before{background:var(--paper);border:2px solid var(--ink)}
+.tl small{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+.tl h3{margin:4px 0 4px}
+.tl p{font-size:14px;opacity:.7}
+
+/* ---------- RESULTADOS ---------- */
+.cards{display:grid;gap:14px;margin-top:26px}
+.card{border:1px solid var(--line);padding:22px 20px;border-radius:2px}
+.card .big{font-size:clamp(48px,15vw,68px);font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.card .lbl{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:10px}
+.card p{font-size:14px;opacity:.7;margin-top:10px}
+.card .pill{display:inline-block;margin-top:14px;font-size:12px;font-weight:700;border:1px solid var(--line);padding:6px 11px;border-radius:999px}
+.bars{margin-top:8px}
+.brow{display:grid;grid-template-columns:78px 1fr;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line-l);width:100%;text-align:left}
+.brow span{font-size:13px;font-weight:700}
+.track{height:26px;background:rgba(0,0,0,.07);position:relative;overflow:hidden}
+.fill{position:absolute;left:0;top:0;bottom:0;width:calc(var(--w,0)*1%);background:var(--ink);transition:width 1s cubic-bezier(.2,.8,.2,1),background .3s;min-width:3px}
+.fill.ok{background:var(--ink)}
+.fill.lo{background:#8a8a8a}
+.track em{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-style:normal;font-size:12px;font-weight:700;font-variant-numeric:tabular-nums;mix-blend-mode:normal;color:var(--ink);background:var(--paper);padding:1px 6px}
+.seg{display:flex;height:44px;margin-top:22px;border:1px solid var(--ink)}
+.seg div{height:100%;transition:flex-grow 1s cubic-bezier(.2,.8,.2,1);position:relative}
+.seg .s1{background:var(--ink);flex:38 1 0}
+.seg .s2{background:#8a8a8a;flex:15 1 0}
+.seg .s3{background:repeating-linear-gradient(135deg,var(--paper) 0 5px,#c9c9c6 5px 6px);flex:47 1 0}
+.legend{margin-top:14px;display:grid;gap:10px}
+.legend div{display:grid;grid-template-columns:18px 1fr auto;gap:10px;align-items:center;font-size:14px;border-bottom:1px solid var(--line-l);padding-bottom:10px}
+.legend i{width:14px;height:14px;display:block;border:1px solid var(--ink)}
+.legend b{font-variant-numeric:tabular-nums}
+
+/* ---------- PRÓXIMO PASSO ---------- */
+.acc{margin-top:24px;border-top:1px solid var(--line)}
+.acc .it{border-bottom:1px solid var(--line)}
+.acc .hd{width:100%;display:grid;grid-template-columns:34px 1fr 20px;gap:10px;align-items:center;text-align:left;padding:20px 0}
+.acc .n{font-size:13px;font-weight:700;opacity:.5;font-variant-numeric:tabular-nums}
+.acc .tt{font-size:18px;font-weight:900;letter-spacing:-.01em;line-height:1.2}
+.acc .pl{font-size:22px;line-height:1;transition:transform .4s;text-align:center}
+.acc .it.open .pl{transform:rotate(45deg)}
+.acc .bd{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.acc .it.open .bd{grid-template-rows:1fr}
+.acc .bd>div{overflow:hidden}
+.acc .bd p{font-size:14px;opacity:.75;padding:0 0 20px 44px;max-width:50ch}
+
+/* ---------- ONDE QUEREMOS CHEGAR ---------- */
+.goals{display:grid;gap:0;margin-top:24px;border-top:1px solid var(--line-l)}
+.goal{display:grid;grid-template-columns:1fr auto;gap:6px 14px;padding:20px 0;border-bottom:1px solid var(--line-l);align-items:end}
+.goal small{font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;grid-column:1/-1}
+.goal .now{font-size:15px;opacity:.55;font-variant-numeric:tabular-nums}
+.goal .to{font-size:clamp(28px,9vw,38px);font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;text-align:right;line-height:1}
+.goal .arrow{height:2px;background:var(--ink);grid-column:1/-1;transform-origin:left;transform:scaleX(var(--ax,1));transition:transform 1.2s cubic-bezier(.2,.8,.2,1)}
+.tag{display:inline-block;margin-top:16px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--ink);padding:6px 10px}
+
+/* ---------- INVESTIMENTO ---------- */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.opt{border:1px solid var(--line);padding:16px 14px;text-align:left;border-radius:2px;transition:background .35s,color .35s,border-color .35s}
+.opt small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+.opt b{display:block;font-size:26px;font-weight:900;letter-spacing:-.03em;margin-top:6px;line-height:1}
+.opt[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
+.sum{margin-top:18px;border-top:1px solid var(--line)}
+.sum div{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sum div span:first-child{opacity:.65}
+.sum b{font-variant-numeric:tabular-nums;text-align:right}
+.sum .tot b{font-size:22px;font-weight:900}
+.ask{font-size:18px;font-weight:900;line-height:1.25;margin-top:34px;letter-spacing:-.01em;text-wrap:balance}
+
+/* ---------- RODAPÉ ---------- */
+footer{background:var(--paper);color:var(--ink);padding:28px 0 40px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer span:last-child{opacity:.5}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+:host{display:block}.root{min-height:100vh}</style><div class="root">
+
+<!-- CAPA -->
+<section class="dark cover">
+  <div class="wrap">
+    <div class="topbar"><span>VOLTZ MEDIA</span><span>Meta Ads · Nov 2026</span></div>
+    <div class="kick" style="margin-top:34px">Relatório de resultados</div>
+    <h1>IBF<br>Telhas</h1>
+    <p class="lead">Como o investimento em anúncios no Instagram e Facebook rendeu mais alcance gastando menos, e o que vem a seguir.</p>
+    <div class="hero3d" id="hero" aria-hidden="true"><div class="stack" id="stack"></div></div>
+    <div class="hint">Arraste para girar</div>
+    <div class="sub"><span class="chip">05 a 24 de novembro</span><span class="chip">Investimento diário R$ 16</span></div>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">Resumo do período</div>
+    <h2>Mais gente vendo a IBF, por menos.</h2>
+    <p class="lead">Em 20 dias de anúncios, a marca chegou a quase 32 mil pessoas diferentes em Fortaleza e região.</p>
+    <div class="kpis">
+      <div class="kpi"><b data-n="48846">48.846</b><span>impressões<br>(vezes que o anúncio apareceu)</span></div>
+      <div class="kpi"><b data-n="31701">31.701</b><span>pessoas alcançadas<br>sem repetir</span></div>
+      <div class="kpi"><b data-n="2124">2.124</b><span>cliques e interações<br>nos anúncios</span></div>
+      <div class="kpi"><b data-n="629" data-d="2" data-p="R$ ">R$ 6,29</b><span>custo para aparecer<br>1.000 vezes (CPM)</span></div>
+    </div>
+    <p class="note">Dados da conta de anúncios da IBF, 05/11 a 24/11/2026 (24/11 parcial). Investimento total no período: R$ 307,47.</p>
+  </div>
+</section>
+
+<!-- EVOLUÇÃO 3D -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">Evolução</div>
+    <h2>Setembro contra novembro.</h2>
+    <p class="lead">Toque em uma métrica e gire o gráfico. Cinza é setembro, branco é novembro.</p>
+    <div class="tabs" role="tablist" aria-label="Métricas">
+      <button class="tab" role="tab" aria-selected="true" data-k="imp">Alcance</button>
+      <button class="tab" role="tab" aria-selected="false" data-k="cpm">Custo por mil</button>
+      <button class="tab" role="tab" aria-selected="false" data-k="gasto">Investimento</button>
+      <button class="tab" role="tab" aria-selected="false" data-k="clk">Cliques por real</button>
+    </div>
+    <div class="scene" id="scene" aria-hidden="true">
+      <div class="world" id="world">
+        <div class="floor"></div>
+        <div class="col a" id="colA"><i class="f"></i><i class="k"></i><i class="l"></i><i class="r"></i><i class="u"></i></div>
+        <div class="col b" id="colB"><i class="f"></i><i class="k"></i><i class="l"></i><i class="r"></i><i class="u"></i></div>
+      </div>
+    </div>
+    <div class="vals">
+      <div class="val"><small>Setembro</small><b id="vA">28.704</b><em id="uA">impressões · 22 dias</em></div>
+      <div class="val"><small>Novembro</small><b id="vB">48.846</b><em id="uB">impressões · 20 dias</em></div>
+    </div>
+    <div class="delta"><b id="dl">+70%</b><span id="dt">mais impressões, com 12% menos investimento.</span></div>
+    <p class="note">Setembro: 22 dias, R$ 349,57. Novembro: 20 dias, R$ 307,47. Os números do gráfico partem do zero.</p>
+  </div>
+</section>
+
+<!-- LINHA DO TEMPO -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">Como chegamos aqui</div>
+    <h2>Três etapas em novembro.</h2>
+    <ol class="tl">
+      <li><small>05/11</small><h3>Lançamento</h3><p>Duas frentes no ar com R$ 16 por dia: uma para atrair novos olhares, outra para falar com quem já conhece a IBF.</p></li>
+      <li><small>14/11</small><h3>Primeiro diagnóstico</h3><p>Anúncios que não traziam resposta foram pausados e a verba ficou com os que mais rendem.</p></li>
+      <li class="now"><small>24/11</small><h3>Balanço</h3><p>Dados fechados do período e plano para o próximo ciclo.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">Resultados</div>
+    <h2>Pessoas que responderam.</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="lbl">Remarketing</div>
+        <div class="big" data-n="84">84</div>
+        <p>conversas iniciadas com a IBF por quem já tinha visto a marca.</p>
+        <span class="pill">R$ 1,40 por conversa</span>
+      </div>
+      <div class="card">
+        <div class="lbl">Novos públicos</div>
+        <div class="big" data-n="88">88</div>
+        <p>visitas ao perfil @ibftelhas vindas dos anúncios de reconhecimento.</p>
+        <span class="pill">R$ 2,16 por visita</span>
+      </div>
+    </div>
+    <p class="note">Conversas e visitas ao perfil medem interesse. Não são vendas fechadas.</p>
+  </div>
+</section>
+
+<!-- ANÚNCIOS -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">O que cada anúncio entregou</div>
+    <h2>Quem rende mais.</h2>
+    <div class="tabs" role="tablist" aria-label="Comparação de anúncios" style="margin-top:18px">
+      <button class="tab" id="tc1" role="tab" aria-selected="true" data-b="conv" style="border-color:var(--line-l)">Custo por conversa</button>
+      <button class="tab" id="tc2" role="tab" aria-selected="false" data-b="vis" style="border-color:var(--line-l)">Custo por visita</button>
+    </div>
+    <div class="bars" id="bars" role="list"></div>
+    <p class="note" id="bnote">Remarketing: quanto custou cada conversa iniciada. Menor é melhor.</p>
+
+    <div class="rule"></div>
+    <div class="kick">Para onde foi a verba</div>
+    <div class="seg" aria-hidden="true"><div class="s1"></div><div class="s2"></div><div class="s3"></div></div>
+    <div class="legend">
+      <div><i style="background:var(--ink)"></i><span>Remarketing (conversas)</span><b>R$ 117 · 38%</b></div>
+      <div><i style="background:#8a8a8a"></i><span>Fotos e posts (visitas ao perfil)</span><b>R$ 47 · 15%</b></div>
+      <div><i style="background:repeating-linear-gradient(135deg,#f4f4f2 0 3px,#c9c9c6 3px 4px)"></i><span>Três vídeos Reels (alcance barato)</span><b>R$ 143 · 47%</b></div>
+    </div>
+    <p class="note" style="opacity:.7;font-size:14px;margin-top:22px">Aprendizado: os Reels levaram muita gente a clicar (976 cliques a cerca de R$ 0,15), mas poucos foram ao perfil. Já os dois anúncios de visita ao perfil mais eficientes custam cerca de R$ 0,50. É para lá que a verba vai.</p>
+  </div>
+</section>
+
+<!-- PRÓXIMO PASSO -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">Próximo passo</div>
+    <h2>Ajustes para dezembro.</h2>
+    <div class="acc" id="acc">
+      <div class="it open"><button class="hd" aria-expanded="true"><span class="n">01</span><span class="tt">Concentrar nos anúncios que rendem</span><span class="pl">+</span></button><div class="bd"><div><p>Pausar os anúncios com baixa resposta e dar mais verba aos que geram visita ao perfil por cerca de R$ 0,50.</p></div></div></div>
+      <div class="it"><button class="hd" aria-expanded="false"><span class="n">02</span><span class="tt">Manter o remarketing ativo</span><span class="pl">+</span></button><div class="bd"><div><p>Seguir com R$ 6 por dia para quem já viu a IBF, usando os dois anúncios que mais geram conversa.</p></div></div></div>
+      <div class="it"><button class="hd" aria-expanded="false"><span class="n">03</span><span class="tt">Repor o saldo da conta</span><span class="pl">+</span></button><div class="bd"><div><p>O saldo atual cobre os anúncios até o fim de 26/11 ou início de 27/11. Uma recarga mantém tudo no ar sem pausa.</p></div></div></div>
+      <div class="it"><button class="hd" aria-expanded="false"><span class="n">04</span><span class="tt">Estudo de concorrentes e Meta × Google</span><span class="pl">+</span></button><div class="bd"><div><p>Com o primeiro mês fechado, mapear o que os concorrentes fazem e comparar o retorno de Meta e Google para decidir onde investir mais.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ONDE QUEREMOS CHEGAR -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">Onde queremos chegar</div>
+    <h2>Metas propostas.</h2>
+    <p class="lead">Pontos de partida baseados nos resultados de novembro.</p>
+    <div class="goals">
+      <div class="goal"><small>Custo por conversa (remarketing)</small><span class="now">hoje R$ 1,40</span><span class="to">≤ R$ 1,20</span><div class="arrow" style="--ax:.86"></div></div>
+      <div class="goal"><small>Custo para aparecer 1.000 vezes</small><span class="now">hoje R$ 6,29</span><span class="to">&lt; R$ 7</span><div class="arrow" style="--ax:1"></div></div>
+      <div class="goal"><small>Custo por visita ao perfil</small><span class="now">hoje R$ 2,16</span><span class="to">menor</span><div class="arrow" style="--ax:.5"></div></div>
+    </div>
+    <span class="tag">Metas sugeridas, a combinar</span>
+  </div>
+</section>
+
+<!-- INVESTIMENTO (por último) -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">Investimento</div>
+    <h2>Para seguir crescendo.</h2>
+    <p class="lead">Dois caminhos. O primeiro mantém o que está funcionando. O segundo dá um pouco mais de fôlego.</p>
+    <div class="opts">
+      <button class="opt" aria-pressed="true" data-o="a"><small>Manter</small><b>R$ 16/dia</b></button>
+      <button class="opt" aria-pressed="false" data-o="b"><small>Reforçar</small><b>R$ 20/dia</b></button>
+    </div>
+    <div class="sum">
+      <div><span>Anúncios por mês (30 dias)</span><b id="sM">R$ 480</b></div>
+      <div><span>Diferença para hoje</span><b id="sD">sem mudança</b></div>
+      <div class="tot"><span>Pix estimado com impostos da Meta (~12%)</span><b id="sP">R$ 546</b></div>
+    </div>
+    <p class="ask">Pedido imediato: recarga de cerca de R$ 100 para manter tudo no ar até o fim de novembro.</p>
+    <p class="note">Valores estimados. A Meta cobra cerca de 12% de impostos sobre o saldo adicionado, então o Pix é maior que o valor aplicado nos anúncios.</p>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>VOLTZ MEDIA</span><span>Fortaleza · Confidencial · IBF</span></div></footer>
+
+</div></template>
+<template id="t-google"><style>
+/* Layout idea: sanduíche VOLTZ (escuro/claro), monocromático, gráficos 3D em CSS puro, mobile first */
+:host{
+  --ink:#0b0b0b;
+  --paper:#f4f4f2;
+  --mid:#8a8a8a;
+  --line:rgba(255,255,255,.16);
+  --line-l:rgba(0,0,0,.16);
+  --f:Arial,Helvetica,"Helvetica Neue",sans-serif;
+  color-scheme:light dark;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+.root{background:var(--ink);color:#fff;font-family:var(--f);font-size:16px;line-height:1.5;overflow-x:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.wrap{max-width:520px;margin:0 auto;padding:0 20px}
+section{padding:64px 0}
+.dark{background:var(--ink);color:#fff}
+.light{background:var(--paper);color:var(--ink)}
+.kick{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--mid);display:flex;align-items:center;gap:10px}
+.kick::after{content:"";height:1px;flex:1;background:currentColor;opacity:.3}
+h1,h2,h3{font-weight:900;letter-spacing:-.02em;text-wrap:balance}
+h1{font-size:clamp(52px,17vw,88px);line-height:.92;margin:22px 0 14px}
+h2{font-size:clamp(30px,9vw,42px);line-height:1;margin:18px 0 12px}
+h3{font-size:18px;line-height:1.2}
+p.lead{font-size:16px;opacity:.78;max-width:46ch}
+.rule{height:1px;background:var(--line);margin:28px 0}
+.light .rule{background:var(--line-l)}
+.note{font-size:12px;opacity:.55;margin-top:16px;line-height:1.5}
+
+.rv.in{animation:rise .9s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:.25;transform:translateY(22px)}to{opacity:1;transform:none}}
+
+/* ---------- CAPA ---------- */
+.cover{padding:28px 0 56px}
+.topbar{display:flex;justify-content:space-between;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase}
+.topbar span:last-child{opacity:.5}
+.hero3d{height:230px;margin:26px 0 8px;perspective:900px;display:flex;align-items:center;justify-content:center;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none}
+.hero3d:active{cursor:grabbing}
+.stack{position:relative;width:230px;height:150px;margin-bottom:30px;transform-style:preserve-3d;transform:rotateX(-20deg) rotateY(var(--ry,30deg))}
+.pil{position:absolute;bottom:0;width:38px;height:150px;transform-style:preserve-3d;transform-origin:50% 100%;transform:scaleY(var(--s,.04));transition:transform 1.3s cubic-bezier(.2,.8,.2,1)}
+.pil i{position:absolute;display:block}
+.pil .f{inset:0;transform:translateZ(19px);background:var(--c1)}
+.pil .k{inset:0;transform:rotateY(180deg) translateZ(19px);background:var(--c1)}
+.pil .r,.pil .l{width:38px;height:150px;left:0;top:0;background:var(--c2)}
+.pil .r{transform:rotateY(90deg) translateZ(19px)}
+.pil .l{transform:rotateY(-90deg) translateZ(19px)}
+.pil .u{left:0;top:-19px;width:38px;height:38px;transform:rotateX(90deg);background:var(--c3)}
+.hint{font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.45;text-align:center}
+.sub{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.chip{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;border:1px solid var(--line);padding:8px 12px;border-radius:999px}
+
+/* ---------- KPIs ---------- */
+.kpis{display:grid;grid-template-columns:1fr 1fr;margin-top:26px;border-top:1px solid var(--line-l)}
+.kpi{padding:22px 0 20px;border-bottom:1px solid var(--line-l)}
+.kpi:nth-child(odd){padding-right:16px;border-right:1px solid var(--line-l)}
+.kpi:nth-child(even){padding-left:18px}
+.kpi b{display:block;white-space:nowrap;font-size:clamp(24px,7.2vw,34px);font-weight:900;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.kpi span{display:block;font-size:12px;margin-top:8px;opacity:.6;line-height:1.35}
+
+/* ---------- GRÁFICOS 3D ---------- */
+.tabs{display:flex;gap:8px;overflow-x:auto;padding:4px 20px 6px;margin:22px -20px 0;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:0 0 auto;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:11px 15px;border:1px solid var(--line);border-radius:999px;opacity:.7;transition:background .35s,color .35s,opacity .35s,border-color .35s}
+.tab[aria-selected="true"]{background:#fff;color:var(--ink);opacity:1;border-color:#fff}
+.light .tab{border-color:var(--line-l)}
+.light .tab[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.scene{height:300px;perspective:1000px;margin:10px 0 0;display:flex;justify-content:center;align-items:flex-end;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;overflow:hidden}
+.scene:active{cursor:grabbing}
+.world{position:relative;width:300px;height:200px;margin-bottom:46px;transform-style:preserve-3d;transform:rotateX(-18deg) rotateY(var(--sy,-28deg))}
+.floor{position:absolute;left:-30px;top:200px;width:360px;height:260px;transform-origin:50% 0;transform:rotateX(90deg);background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:30px 30px;border:1px solid var(--line)}
+.col{position:absolute;bottom:0;width:var(--cw);height:200px;transform-style:preserve-3d;transform-origin:50% 100%;transform:scaleY(var(--s,.05));transition:transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.col i{position:absolute;display:block}
+.col .f{inset:0;transform:translateZ(calc(var(--cw)/2))}
+.col .k{inset:0;transform:rotateY(180deg) translateZ(calc(var(--cw)/2))}
+.col .r,.col .l{width:var(--cw);height:200px;left:0;top:0}
+.col .r{transform:rotateY(90deg) translateZ(calc(var(--cw)/2))}
+.col .l{transform:rotateY(-90deg) translateZ(calc(var(--cw)/2))}
+.col .u{left:0;top:calc(var(--cw)/-2);width:var(--cw);height:var(--cw);transform:rotateX(90deg)}
+.c0 .f,.c0 .k{background:#5f5f5f}.c0 .r,.c0 .l{background:#3f3f3f}.c0 .u{background:#808080}
+.c1 .f,.c1 .k{background:#9a9a9a}.c1 .r,.c1 .l{background:#686868}.c1 .u{background:#bcbcbc}
+.c2 .f,.c2 .k{background:#f1f1f1}.c2 .r,.c2 .l{background:#b4b4b4}.c2 .u{background:#fff}
+.vals{display:grid;border-top:1px solid var(--line)}
+.val{padding:18px 0 18px 14px;border-left:1px solid var(--line);min-width:0}
+.val:first-child{padding-left:0;border-left:0}
+.val small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.55}
+.val b{display:block;white-space:nowrap;font-size:clamp(18px,5.4vw,28px);font-weight:900;letter-spacing:-.02em;margin-top:6px;font-variant-numeric:tabular-nums;line-height:1.1}
+.val em{display:block;font-style:normal;font-size:12px;opacity:.5;margin-top:2px}
+.delta{margin-top:6px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px}
+.delta b{font-size:clamp(44px,14vw,64px);font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.delta span{font-size:14px;opacity:.7;max-width:28ch}
+/* variante clara */
+.light .world .floor{background-image:linear-gradient(var(--line-l) 1px,transparent 1px),linear-gradient(90deg,var(--line-l) 1px,transparent 1px);border-color:var(--line-l)}
+.light .vals,.light .delta{border-color:var(--line-l)}
+.light .val{border-color:var(--line-l)}
+.light .c2 .f,.light .c2 .k{background:#0b0b0b}.light .c2 .r,.light .c2 .l{background:#000}.light .c2 .u{background:#2a2a2a}
+.light .c0 .f,.light .c0 .k{background:#a9a9a6}.light .c0 .r,.light .c0 .l{background:#8a8a87}.light .c0 .u{background:#c7c7c4}
+.light .c1 .f,.light .c1 .k{background:#7a7a78}.light .c1 .r,.light .c1 .l{background:#5a5a58}.light .c1 .u{background:#9a9a98}
+
+/* ---------- LINHA DO TEMPO ---------- */
+.tl{margin-top:26px;border-left:1px solid var(--line);margin-left:5px}
+.tl li{list-style:none;position:relative;padding:0 0 28px 24px}
+.tl li::before{content:"";position:absolute;left:-6px;top:6px;width:11px;height:11px;background:#fff;border-radius:50%}
+.tl li.now::before{background:var(--ink);border:2px solid #fff}
+.tl small{font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;opacity:.5}
+.tl h3{margin:4px 0 4px}
+.tl p{font-size:14px;opacity:.7}
+
+/* ---------- CARTÕES ---------- */
+.cards{display:grid;gap:14px;margin-top:26px}
+.card{border:1px solid var(--line-l);padding:22px 20px;border-radius:2px}
+.card .big{font-size:clamp(48px,15vw,68px);font-weight:900;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.card .lbl{font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;opacity:.6;margin-bottom:10px}
+.card p{font-size:14px;opacity:.7;margin-top:10px}
+.card .pill{display:inline-block;margin-top:14px;font-size:12px;font-weight:700;border:1px solid var(--line-l);padding:6px 11px;border-radius:999px}
+.card .kw{font-size:clamp(26px,8vw,34px);font-weight:900;letter-spacing:-.02em;line-height:1.05}
+
+/* ---------- PRÓXIMO PASSO ---------- */
+.acc{margin-top:24px;border-top:1px solid var(--line)}
+.acc .it{border-bottom:1px solid var(--line)}
+.acc .hd{width:100%;display:grid;grid-template-columns:34px 1fr 20px;gap:10px;align-items:center;text-align:left;padding:20px 0}
+.acc .n{font-size:13px;font-weight:700;opacity:.5;font-variant-numeric:tabular-nums}
+.acc .tt{font-size:18px;font-weight:900;letter-spacing:-.01em;line-height:1.2}
+.acc .pl{font-size:22px;line-height:1;transition:transform .4s;text-align:center}
+.acc .it.open .pl{transform:rotate(45deg)}
+.acc .bd{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.2,.8,.2,1)}
+.acc .it.open .bd{grid-template-rows:1fr}
+.acc .bd>div{overflow:hidden}
+.acc .bd p{font-size:14px;opacity:.75;padding:0 0 20px 44px;max-width:50ch}
+
+/* ---------- METAS ---------- */
+.goals{margin-top:24px;border-top:1px solid var(--line-l)}
+.goal{display:grid;grid-template-columns:1fr auto;gap:6px 14px;padding:20px 0;border-bottom:1px solid var(--line-l);align-items:end}
+.goal small{font-size:11px;letter-spacing:.18em;text-transform:uppercase;opacity:.55;grid-column:1/-1}
+.goal .now{font-size:15px;opacity:.55;font-variant-numeric:tabular-nums}
+.goal .to{font-size:clamp(28px,9vw,38px);font-weight:900;letter-spacing:-.03em;font-variant-numeric:tabular-nums;text-align:right;line-height:1}
+.goal .arrow{height:2px;background:var(--ink);grid-column:1/-1;transform-origin:left;transform:scaleX(var(--ax,1))}
+.tag{display:inline-block;margin-top:16px;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;border:1px solid var(--ink);padding:6px 10px}
+
+/* ---------- INVESTIMENTO ---------- */
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:24px}
+.opt{border:1px solid var(--line);padding:16px 14px;text-align:left;border-radius:2px;transition:background .35s,color .35s,border-color .35s}
+.opt small{display:block;font-size:11px;letter-spacing:.16em;text-transform:uppercase;opacity:.6}
+.opt b{display:block;font-size:24px;font-weight:900;letter-spacing:-.03em;margin-top:6px;line-height:1}
+.opt[aria-pressed="true"]{background:#fff;color:var(--ink);border-color:#fff}
+.sum{margin-top:18px;border-top:1px solid var(--line)}
+.sum div{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--line);font-size:14px}
+.sum div span:first-child{opacity:.65}
+.sum b{font-variant-numeric:tabular-nums;text-align:right}
+.sum .tot b{font-size:22px;font-weight:900}
+.ask{font-size:18px;font-weight:900;line-height:1.25;margin-top:34px;letter-spacing:-.01em;text-wrap:balance}
+
+footer{background:var(--paper);color:var(--ink);padding:28px 0 40px;font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer span:last-child{opacity:.5}
+
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+:host{display:block}.root{min-height:100vh}</style><div class="root">
+
+<!-- CAPA -->
+<section class="dark cover">
+  <div class="wrap">
+    <div class="topbar"><span>VOLTZ MEDIA</span><span>Google Ads · Nov 2026</span></div>
+    <div class="kick" style="margin-top:34px">Relatório de resultados</div>
+    <h1>IBF<br>Telhas</h1>
+    <p class="lead">Mesma verba, clique mais barato e um caminho claro para crescer na busca do Google.</p>
+    <div class="hero3d" id="hero" aria-hidden="true"><div class="stack" id="stack"></div></div>
+    <div class="hint">Arraste para girar</div>
+    <div class="sub"><span class="chip">1 a 24 de novembro</span><span class="chip">R$ 76,67 por dia</span></div>
+  </div>
+</section>
+
+<!-- RESUMO -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">Resumo do período</div>
+    <h2>Quem busca telha em Fortaleza encontra a IBF.</h2>
+    <p class="lead">Em 24 dias, os anúncios de busca geraram 152 contatos com a empresa, na mesma verba de antes.</p>
+    <div class="kpis">
+      <div class="kpi"><b data-n="184021" data-d="2" data-p="R$ ">R$ 1.840,21</b><span>investidos<br>(R$ 76,67 por dia)</span></div>
+      <div class="kpi"><b data-n="152">152</b><span>contatos gerados<br>com a IBF</span></div>
+      <div class="kpi"><b data-n="1211" data-d="2" data-p="R$ ">R$ 12,11</b><span>custo médio<br>por contato</span></div>
+      <div class="kpi"><b data-n="801">801</b><span>cliques de pessoas<br>buscando telha</span></div>
+    </div>
+    <p class="note">Dados do painel do Google Ads da IBF, campanha B2C Telhas – Ceará, de 1 a 24/11/2026. Contato é a ação de conversão “[STM] Contato”.</p>
+  </div>
+</section>
+
+<!-- EVOLUÇÃO 3D -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">Evolução</div>
+    <h2>Outubro contra novembro.</h2>
+    <p class="lead">Mesmo número de dias (1 a 24) nos dois meses. Toque em uma métrica e gire o gráfico. Cinza é outubro, branco é novembro.</p>
+    <div class="tabs" role="tablist" aria-label="Métricas">
+      <button class="tab" role="tab" aria-selected="true" data-g="cmp" data-k="clk">Cliques</button>
+      <button class="tab" role="tab" aria-selected="false" data-g="cmp" data-k="cpc">Custo por clique</button>
+      <button class="tab" role="tab" aria-selected="false" data-g="cmp" data-k="ctt">Contatos</button>
+      <button class="tab" role="tab" aria-selected="false" data-g="cmp" data-k="cpl">Custo por contato</button>
+      <button class="tab" role="tab" aria-selected="false" data-g="cmp" data-k="imp">Alcance</button>
+    </div>
+    <div class="scene" id="sc-cmp" aria-hidden="true"><div class="world" id="w-cmp"><div class="floor"></div></div></div>
+    <div class="vals" id="v-cmp"></div>
+    <div class="delta"><b id="dl-cmp"></b><span id="dt-cmp"></span></div>
+    <p class="note">Outubro e novembro de 1 a 24, campanha B2C Telhas – Ceará. Nos gráficos, a altura parte do zero. Novembro tem dois feriados nacionais (2 e 20/11).</p>
+  </div>
+</section>
+
+<!-- CONSTÂNCIA 3 MESES -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">Três meses</div>
+    <h2>Um custo previsível.</h2>
+    <p class="lead">Setembro e outubro fechados, novembro até o dia 24. Com a verba fixa, o contato fica na faixa de R$ 12.</p>
+    <div class="tabs" role="tablist" aria-label="Métricas de três meses">
+      <button class="tab" role="tab" aria-selected="true" data-g="con" data-k="cpl">Custo por contato</button>
+      <button class="tab" role="tab" aria-selected="false" data-g="con" data-k="dia">Contatos por dia</button>
+    </div>
+    <div class="scene" id="sc-con" aria-hidden="true"><div class="world" id="w-con"><div class="floor"></div></div></div>
+    <div class="vals" id="v-con"></div>
+    <div class="delta" style="border-color:var(--line-l)"><b id="dl-con"></b><span id="dt-con"></span></div>
+    <p class="note">Setembro: 30 dias, 197 contatos. Outubro: 31 dias, 197 contatos. Novembro: 24 dias, 152 contatos. O Google pode atualizar conversões dos últimos dias.</p>
+  </div>
+</section>
+
+<!-- O QUE FIZEMOS -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">O que foi feito</div>
+    <h2>Ajustes na conta.</h2>
+    <ol class="tl">
+      <li><small>Fim de outubro</small><h3>Medição corrigida</h3><p>O Google deixou de tratar visita à página inicial como resultado e passou a buscar contatos de verdade.</p></li>
+      <li><small>Fim de outubro</small><h3>Limpeza das buscas</h3><p>Termos sem interesse bloqueados, palavras fracas pausadas e variações das palavras campeãs reforçadas.</p></li>
+      <li><small>06/11</small><h3>Lances onde converte</h3><p>Mais lance no computador (+25%), na terça e na quarta (+15%) e menos na segunda (−20%). A busca por galvalume, produto da IBF, foi liberada.</p></li>
+      <li class="now"><small>24/11</small><h3>Balanço</h3><p>Dados do período e plano para o próximo ciclo.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- OPORTUNIDADE -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">Onde está a oportunidade</div>
+    <h2>Telha sanduíche manda no jogo.</h2>
+    <div class="cards">
+      <div class="card">
+        <div class="lbl">Busca campeã</div>
+        <div class="kw">telha sanduíche em Fortaleza</div>
+        <p>147 cliques com 22% de taxa de clique, a melhor da conta. Usou 24% da verba.</p>
+        <span class="pill">R$ 442 investidos</span>
+      </div>
+      <div class="card">
+        <div class="lbl">Tendência de busca</div>
+        <div class="big" data-n="35" data-p="+" data-s="%">+35%</div>
+        <p>de crescimento no volume de buscas por telha sanduíche no Brasil, na comparação com o ano passado, segundo o Google.</p>
+      </div>
+    </div>
+    <div class="rule" style="margin-top:34px"></div>
+    <div class="kick">Por aparelho</div>
+    <h3 style="margin-top:14px;font-size:22px">Quem busca no computador fecha mais.</h3>
+    <div class="scene" id="sc-dev" aria-hidden="true"><div class="world" id="w-dev"><div class="floor"></div></div></div>
+    <div class="vals" id="v-dev"></div>
+    <div class="delta" style="border-color:var(--line-l)"><b id="dl-dev"></b><span id="dt-dev"></span></div>
+    <p class="note">Participação de cada aparelho nos cliques e nas conversões da campanha, 1 a 24/11. Conversões incluem visitas à página de contato.</p>
+  </div>
+</section>
+
+<!-- PRÓXIMO PASSO -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">Próximo passo</div>
+    <h2>O que vem agora.</h2>
+    <div class="acc" id="acc">
+      <div class="it open"><button class="hd" aria-expanded="true"><span class="n">01</span><span class="tt">Página e anúncios de telha sanduíche</span><span class="pl">+</span></button><div class="bd"><div><p>Hoje quem busca sanduíche cai em um anúncio genérico. Uma página e anúncios específicos falam direto com quem quer esse produto e tendem a converter melhor.</p></div></div></div>
+      <div class="it"><button class="hd" aria-expanded="false"><span class="n">02</span><span class="tt">Medição 100% segura</span><span class="pl">+</span></button><div class="bd"><div><p>Conferir o rastreio dos contatos no site e retirar de vez as visitas de página dos resultados, para o Google aprender só com contato real.</p></div></div></div>
+      <div class="it"><button class="hd" aria-expanded="false"><span class="n">03</span><span class="tt">Ajuste fino por horário e busca</span><span class="pl">+</span></button><div class="bd"><div><p>Com um mês de dados, refinar os lances por faixa de horário e ampliar as palavras ligadas a sanduíche, isotelha e termoacústica.</p></div></div></div>
+      <div class="it"><button class="hd" aria-expanded="false"><span class="n">04</span><span class="tt">Revisão em 30 dias</span><span class="pl">+</span></button><div class="bd"><div><p>Novo relatório com o mês fechado, comparando com setembro, outubro e novembro, e ajuste de rota se for preciso.</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- METAS -->
+<section class="light">
+  <div class="wrap rv">
+    <div class="kick">Onde queremos chegar</div>
+    <h2>Metas propostas.</h2>
+    <p class="lead">Pontos de partida baseados nos resultados dos últimos três meses.</p>
+    <div class="goals">
+      <div class="goal"><small>Custo por contato</small><span class="now">hoje R$ 12,11</span><span class="to">≤ R$ 11,00</span><div class="arrow" style="--ax:.91"></div></div>
+      <div class="goal"><small>Contatos por dia</small><span class="now">hoje 6,3</span><span class="to">7 ou mais</span><div class="arrow" style="--ax:.9"></div></div>
+      <div class="goal"><small>Custo por clique</small><span class="now">hoje R$ 2,30</span><span class="to">≤ R$ 2,20</span><div class="arrow" style="--ax:.96"></div></div>
+    </div>
+    <span class="tag">Metas sugeridas, a combinar</span>
+  </div>
+</section>
+
+<!-- INVESTIMENTO (por último) -->
+<section class="dark">
+  <div class="wrap rv">
+    <div class="kick">Investimento</div>
+    <h2>Para seguir crescendo.</h2>
+    <p class="lead">Dois caminhos. O primeiro mantém o que está rodando. O segundo dá um pouco mais de fôlego às buscas de telha sanduíche.</p>
+    <div class="opts">
+      <button class="opt" aria-pressed="true" data-o="a"><small>Manter</small><b>R$ 76,67/dia</b></button>
+      <button class="opt" aria-pressed="false" data-o="b"><small>Reforçar</small><b>R$ 85/dia</b></button>
+    </div>
+    <div class="sum">
+      <div><span>Anúncios por mês (30 dias)</span><b id="sM">R$ 2.300</b></div>
+      <div><span>Diferença para hoje</span><b id="sD">sem mudança</b></div>
+      <div class="tot"><span>Contatos estimados por mês</span><b id="sC">~190</b></div>
+    </div>
+    <p class="ask">Pedido: aprovar o reforço para R$ 85 por dia, cerca de R$ 250 a mais por mês.</p>
+    <p class="note">Estimativa mantendo o custo atual de R$ 12,11 por contato. Com mais verba o custo pode variar para cima ou para baixo. Valores de anúncios, sem a mensalidade da VOLTZ.</p>
+  </div>
+</section>
+
+<footer><div class="wrap"><span>VOLTZ MEDIA</span><span>Fortaleza · Confidencial · IBF</span></div></footer>
+
+</div></template>
+<script>
+function boot_meta(ROOT){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(s,r){return (r||ROOT).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||ROOT).querySelectorAll(s))};
+
+  /* ---- capa: pilha de lajes 3D ---- */
+  var stack = $('#stack');
+  var hs = [.30,.46,.62,.80,1];
+  var shades = [['#4a4a4a','#2f2f2f','#6a6a6a'],['#6a6a6a','#474747','#8c8c8c'],['#8f8f8f','#5f5f5f','#b0b0b0'],['#c4c4c4','#8a8a8a','#e2e2e2'],['#f4f4f4','#b4b4b4','#ffffff']];
+  hs.forEach(function(h,i){
+    var c = document.createElement('div');
+    c.className = 'pil';
+    c.style.left = (i*48)+'px';
+    c.style.setProperty('--c1', shades[i][0]); c.style.setProperty('--c2', shades[i][1]); c.style.setProperty('--c3', shades[i][2]);
+    c.innerHTML = '<i class="f"></i><i class="k"></i><i class="l"></i><i class="r"></i><i class="u"></i>';
+    stack.appendChild(c);
+    setTimeout(function(){ c.style.setProperty('--s', h); }, reduce ? 0 : 250 + i*160);
+  });
+  function makeDrag(el, setVar, target, initial, auto){
+    var yaw = initial, drag = false, lx = 0, raf = 0;
+    function apply(){ target.style.setProperty(setVar, yaw+'deg'); }
+    apply();
+    el.addEventListener('pointerdown', function(e){ drag = true; lx = e.clientX; try{el.setPointerCapture(e.pointerId)}catch(_){ } });
+    el.addEventListener('pointermove', function(e){ if(!drag) return; yaw += (e.clientX-lx)*0.6; lx = e.clientX; apply(); });
+    var end = function(){ drag = false; };
+    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+    if(auto && !reduce){
+      (function tick(){ if(!drag){ yaw += auto; apply(); } raf = requestAnimationFrame(tick); })();
+    }
+  }
+  makeDrag($('#hero'), '--ry', stack, 30, 0.35);
+
+  /* ---- comparativo 3D ---- */
+  var M = {
+    imp:{a:28704,b:48846,fa:'28.704',fb:'48.846',ua:'impressões · 22 dias',ub:'impressões · 20 dias',d:'+70%',t:'mais impressões, com 12% menos investimento.'},
+    cpm:{a:12.18,b:6.29,fa:'R$ 12,18',fb:'R$ 6,29',ua:'por 1.000 impressões',ub:'por 1.000 impressões',d:'−48%',t:'de custo para aparecer mil vezes. Cada real rende mais.'},
+    gasto:{a:349.57,b:307.47,fa:'R$ 349,57',fb:'R$ 307,47',ua:'investidos · 22 dias',ub:'investidos · 20 dias',d:'−12%',t:'de investimento total, com alcance bem maior.'},
+    clk:{a:5.24,b:6.91,fa:'5,2',fb:'6,9',ua:'cliques por R$ 1',ub:'cliques por R$ 1',d:'+32%',t:'mais cliques e interações por real investido.'}
+  };
+  var colA = $('#colA'), colB = $('#colB');
+  function setMetric(k){
+    var m = M[k], mx = Math.max(m.a,m.b);
+    colA.style.setProperty('--s', (m.a/mx).toFixed(3));
+    colB.style.setProperty('--s', (m.b/mx).toFixed(3));
+    $('#vA').textContent = m.fa; $('#vB').textContent = m.fb;
+    $('#uA').textContent = m.ua; $('#uB').textContent = m.ub;
+    $('#dl').textContent = m.d; $('#dt').textContent = m.t;
+  }
+  colA.style.setProperty('--s','.05'); colB.style.setProperty('--s','.05');
+  setTimeout(function(){ setMetric('imp'); }, reduce ? 0 : 450);
+  $$('.tab[data-k]').forEach(function(b){
+    b.addEventListener('click', function(){
+      $$('.tab[data-k]').forEach(function(x){ x.setAttribute('aria-selected', x===b ? 'true':'false'); });
+      setMetric(b.getAttribute('data-k'));
+    });
+  });
+  makeDrag($('#scene'), '--sy', $('#world'), -28, 0);
+
+  /* ---- barras por anúncio ---- */
+  var B = {
+    conv:{note:'Remarketing: quanto custou cada conversa iniciada. Menor é melhor.',rows:[['Anúncio 05',0.85,'R$ 0,85'],['Anúncio 07',1.60,'R$ 1,60'],['Anúncio 06',2.64,'R$ 2,64']],max:3},
+    vis:{note:'Visitas ao perfil: custo de cada visita. Os anúncios 16 e 07 trazem visita por cerca de R$ 0,50; o 19 custou R$ 33,89 e sai do plano.',rows:[['Anúncio 07',0.45,'R$ 0,45'],['Anúncio 16',0.58,'R$ 0,58'],['Anúncio 19',33.89,'R$ 33,89']],max:34}
+  };
+  var barsEl = $('#bars');
+  function drawBars(k, first){
+    var d = B[k];
+    if(first){
+      d.rows.forEach(function(r){
+        var row = document.createElement('div');
+        row.className = 'brow'; row.setAttribute('role','listitem');
+        row.innerHTML = '<span></span><div class="track"><div class="fill"></div><em></em></div>';
+        barsEl.appendChild(row);
+      });
+    }
+    $$('.brow', barsEl).forEach(function(row,i){
+      var r = d.rows[i];
+      $('span',row).textContent = r[0];
+      $('em',row).textContent = r[2];
+      $('.fill',row).style.setProperty('--w', Math.max(2,(r[1]/d.max*100)).toFixed(1));
+    });
+    $('#bnote').textContent = d.note;
+  }
+  drawBars('conv', true);
+  $$('.tab[data-b]').forEach(function(b){
+    b.addEventListener('click', function(){
+      $$('.tab[data-b]').forEach(function(x){ x.setAttribute('aria-selected', x===b ? 'true':'false'); });
+      drawBars(b.getAttribute('data-b'), false);
+    });
+  });
+
+  /* ---- acordeão ---- */
+  $$('#acc .hd').forEach(function(h){
+    h.addEventListener('click', function(){
+      var it = h.parentNode, open = it.classList.toggle('open');
+      h.setAttribute('aria-expanded', open ? 'true':'false');
+    });
+  });
+
+  /* ---- investimento ---- */
+  var O = {a:{m:'R$ 480',d:'sem mudança',p:'R$ 546'},b:{m:'R$ 600',d:'+ R$ 120 por mês',p:'R$ 683'}};
+  $$('.opt').forEach(function(b){
+    b.addEventListener('click', function(){
+      $$('.opt').forEach(function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); });
+      var o = O[b.getAttribute('data-o')];
+      $('#sM').textContent = o.m; $('#sD').textContent = o.d; $('#sP').textContent = o.p;
+    });
+  });
+
+  /* ---- entrada e contadores ---- */
+  function fmt(n,d,p){
+    var s = d ? (n/Math.pow(10,d)).toFixed(d).replace('.',',') : Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+    return (p||'') + s;
+  }
+  function count(el){
+    var to = parseFloat(el.getAttribute('data-n')), d = parseInt(el.getAttribute('data-d')||'0',10), p = el.getAttribute('data-p')||'';
+    var t0 = null, dur = 1400;
+    function step(t){
+      if(t0===null) t0 = t;
+      var k = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-k,3);
+      el.textContent = fmt(to*e,d,p);
+      if(k<1) requestAnimationFrame(step); else el.textContent = fmt(to,d,p);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        e.target.classList.add('in');
+        if(!reduce) $$('[data-n]', e.target).forEach(count);
+        io.unobserve(e.target);
+      });
+    },{threshold:.12});
+    $$('.rv').forEach(function(el){ io.observe(el); });
+  }
+}
+function boot_google(ROOT){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(s,r){return (r||ROOT).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||ROOT).querySelectorAll(s))};
+  var FACES = '<i class="f"></i><i class="k"></i><i class="l"></i><i class="r"></i><i class="u"></i>';
+
+  /* ---- arrastar para girar ---- */
+  function makeDrag(el, setVar, target, initial, auto){
+    var yaw = initial, drag = false, lx = 0;
+    function apply(){ target.style.setProperty(setVar, yaw+'deg'); }
+    apply();
+    el.addEventListener('pointerdown', function(e){ drag = true; lx = e.clientX; try{el.setPointerCapture(e.pointerId)}catch(_){ } });
+    el.addEventListener('pointermove', function(e){ if(!drag) return; yaw += (e.clientX-lx)*0.6; lx = e.clientX; apply(); });
+    var end = function(){ drag = false; };
+    el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+    if(auto && !reduce){ (function tick(){ if(!drag){ yaw += auto; apply(); } requestAnimationFrame(tick); })(); }
+  }
+
+  /* ---- capa: pilhas 3D ---- */
+  var stack = $('#stack');
+  var hs = [.30,.46,.62,.80,1];
+  var shades = [['#4a4a4a','#2f2f2f','#6a6a6a'],['#6a6a6a','#474747','#8c8c8c'],['#8f8f8f','#5f5f5f','#b0b0b0'],['#c4c4c4','#8a8a8a','#e2e2e2'],['#f4f4f4','#b4b4b4','#ffffff']];
+  hs.forEach(function(h,i){
+    var c = document.createElement('div');
+    c.className = 'pil'; c.style.left = (i*48)+'px';
+    c.style.setProperty('--c1', shades[i][0]); c.style.setProperty('--c2', shades[i][1]); c.style.setProperty('--c3', shades[i][2]);
+    c.innerHTML = FACES; stack.appendChild(c);
+    setTimeout(function(){ c.style.setProperty('--s', h); }, reduce ? 0 : 250 + i*160);
+  });
+  makeDrag($('#hero'), '--ry', stack, 30, 0.35);
+
+  /* ---- gráficos 3D de colunas ---- */
+  var CFG = {
+    2:{cw:76,lefts:[52,172],cls:['c0','c2']},
+    3:{cw:62,lefts:[20,120,220],cls:['c0','c1','c2']}
+  };
+  var D = {
+    cmp:{
+      clk:{v:[['Outubro','718','cliques'],['Novembro','801','cliques']],h:[718,801],d:'+11,6%',t:'mais cliques de gente buscando telha, com praticamente a mesma verba.'},
+      cpc:{v:[['Outubro','R$ 2,53','por clique'],['Novembro','R$ 2,30','por clique']],h:[2.53,2.30],d:'−9,2%',t:'no custo de cada clique. Cada real traz mais visitas.'},
+      ctt:{v:[['Outubro','146','contatos'],['Novembro','152','contatos']],h:[146,152],d:'+4,1%',t:'mais contatos com o mesmo investimento diário.'},
+      cpl:{v:[['Outubro','R$ 12,45','por contato'],['Novembro','R$ 12,11','por contato']],h:[12.45,12.11],d:'−2,7%',t:'no custo por contato. Pequeno ganho, na direção certa.'},
+      imp:{v:[['Outubro','9.673','impressões'],['Novembro','10.697','impressões']],h:[9673,10697],d:'+10,6%',t:'mais vezes em que o anúncio apareceu na busca.'}
+    },
+    con:{
+      cpl:{v:[['Setembro','R$ 11,83','por contato'],['Outubro','R$ 11,83','por contato'],['Novembro','R$ 12,11','por contato']],h:[11.83,11.83,12.11],d:'≈ R$ 12',t:'por contato, nos três meses. Previsível com a verba fixa.'},
+      dia:{v:[['Setembro','6,6','por dia'],['Outubro','6,4','por dia'],['Novembro','6,3','por dia']],h:[6.57,6.35,6.33],d:'≈ 6,4',t:'contatos por dia, em média. Volume estável.'}
+    },
+    dev:{
+      pc:{v:[['Cliques','19,7%','vindos do computador'],['Conversões','28,7%','vindas do computador']],h:[19.7,28.7],d:'+9 pts',t:'Computador gera menos cliques e mais resultado. Por isso ganhou lance extra.'}
+    }
+  };
+  var scenes = {};
+  ['cmp','con','dev'].forEach(function(g){
+    var n = D[g][Object.keys(D[g])[0]].h.length, cfg = CFG[n];
+    var world = $('#w-'+g), cols = [];
+    cfg.lefts.forEach(function(left,i){
+      var c = document.createElement('div');
+      c.className = 'col '+cfg.cls[i];
+      c.style.left = left+'px'; c.style.setProperty('--cw', cfg.cw+'px'); c.style.setProperty('--s', '.05');
+      c.innerHTML = FACES; world.appendChild(c); cols.push(c);
+    });
+    scenes[g] = cols;
+    makeDrag($('#sc-'+g), '--sy', world, -28, 0);
+  });
+  function render(g, k, animate){
+    var d = D[g][k], cols = scenes[g], mx = Math.max.apply(null, d.h);
+    var vals = $('#v-'+g);
+    vals.style.gridTemplateColumns = 'repeat('+d.v.length+',1fr)';
+    vals.innerHTML = d.v.map(function(x){ return '<div class="val"><small>'+x[0]+'</small><b>'+x[1]+'</b><em>'+x[2]+'</em></div>'; }).join('');
+    $('#dl-'+g).textContent = d.d; $('#dt-'+g).textContent = d.t;
+    var set = function(){ cols.forEach(function(c,i){ c.style.setProperty('--s', (d.h[i]/mx).toFixed(3)); }); };
+    if(animate && !reduce) setTimeout(set, 450); else set();
+  }
+  Object.keys(D).forEach(function(g){ render(g, Object.keys(D[g])[0], true); });
+  $$('.tab[data-g]').forEach(function(b){
+    b.addEventListener('click', function(){
+      var g = b.getAttribute('data-g');
+      $$('.tab[data-g="'+g+'"]').forEach(function(x){ x.setAttribute('aria-selected', x===b ? 'true':'false'); });
+      render(g, b.getAttribute('data-k'), false);
+    });
+  });
+
+  /* ---- acordeão ---- */
+  $$('#acc .hd').forEach(function(h){
+    h.addEventListener('click', function(){
+      var it = h.parentNode, open = it.classList.toggle('open');
+      h.setAttribute('aria-expanded', open ? 'true':'false');
+    });
+  });
+
+  /* ---- investimento ---- */
+  var O = {a:{m:'R$ 2.300',d:'sem mudança',c:'~190'},b:{m:'R$ 2.550',d:'+ R$ 250 por mês (+11%)',c:'~211'}};
+  $$('.opt').forEach(function(b){
+    b.addEventListener('click', function(){
+      $$('.opt').forEach(function(x){ x.setAttribute('aria-pressed', x===b ? 'true':'false'); });
+      var o = O[b.getAttribute('data-o')];
+      $('#sM').textContent = o.m; $('#sD').textContent = o.d; $('#sC').textContent = o.c;
+    });
+  });
+
+  /* ---- entrada e contadores ---- */
+  function fmt(n,d,p,s){
+    var v = d ? n/Math.pow(10,d) : n;
+    return (p||'') + v.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d}) + (s||'');
+  }
+  function count(el){
+    var to = parseFloat(el.getAttribute('data-n')), d = parseInt(el.getAttribute('data-d')||'0',10), p = el.getAttribute('data-p')||'', s = el.getAttribute('data-s')||'';
+    var t0 = null, dur = 1400;
+    function step(t){
+      if(t0===null) t0 = t;
+      var k = Math.min(1,(t-t0)/dur), e = 1-Math.pow(1-k,3);
+      el.textContent = fmt(to*e,d,p,s);
+      if(k<1) requestAnimationFrame(step); else el.textContent = fmt(to,d,p,s);
+    }
+    requestAnimationFrame(step);
+  }
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting) return;
+        e.target.classList.add('in');
+        if(!reduce) $$('[data-n]', e.target).forEach(count);
+        io.unobserve(e.target);
+      });
+    },{threshold:.12});
+    $$('.rv').forEach(function(el){ io.observe(el); });
+  }
+}
+
+(function(){
+  /* ===== EDITAR AQUI: número do WhatsApp da VOLTZ com DDI+DDD, só dígitos. Vazio = o cliente escolhe o contato. ===== */
+  var WA_NUMBER = '';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var $ = function(s,r){return (r||document).querySelector(s)};
+  var $$ = function(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))};
+  var TPL = {meta:'t-meta', google:'t-google'}, BOOT = {meta:boot_meta, google:boot_google}, booted = {}, roots = {};
+
+  /* mensagens do WhatsApp (linhas separadas) */
+  function waLink(text){ return 'https://wa.me/'+WA_NUMBER+'?text='+encodeURIComponent(text); }
+  function opt(name){
+    var r=roots[name]; var b=r && $('.opt[aria-pressed="true"]', r); return b ? b.getAttribute('data-o') : 'a';
+  }
+  var INFO = {
+    meta:function(){ var o=opt('meta'); return {
+      q:'Meta · recarga ~R$ 100', plat:'Meta Ads (05 a 24/11)',
+      pedido:'Recarga de cerca de R$ 100 no saldo da conta', orc:o==='b'?'R$ 20 por dia (reforçar)':'R$ 16 por dia (manter)'}; },
+    google:function(){ var o=opt('google'); return {
+      q:'Google · '+(o==='b'?'R$ 85/dia':'manter R$ 76,67/dia'), plat:'Google Ads (01 a 24/11)',
+      pedido:'Definir o orçamento diário da busca no Google', orc:o==='b'?'R$ 85 por dia (reforçar)':'R$ 76,67 por dia (manter)'}; }
+  };
+  function msg(name, yes){
+    var i=INFO[name]();
+    return ['Olá, VOLTZ! Aqui é da IBF Telhas.','','Relatório: '+i.plat,'Pedido: '+i.pedido,'Orçamento diário: '+i.orc,'Resposta: '+(yes?'SIM, pode seguir':'AGORA NÃO, vamos conversar antes')].join('\n');
+  }
+  var current='home';
+  function refreshReply(){
+    if(current==='home') return;
+    var i=INFO[current]();
+    $('#rq').textContent=i.q;
+    $('#ry').href=waLink(msg(current,true)); $('#rn').href=waLink(msg(current,false));
+  }
+
+  /* navegação entre telas */
+  function show(name){
+    if(name!=='home' && !booted[name]){
+      var host=$('#v-'+name), root=host.attachShadow({mode:'open'});
+      root.appendChild($('#'+TPL[name]).content.cloneNode(true));
+      roots[name]=root; booted[name]=true; BOOT[name](root);
+      root.addEventListener('click',function(){ setTimeout(refreshReply,0); });
+    }
+    current=name;
+    ['home','meta','google'].forEach(function(n){ $('#v-'+n).classList.toggle('on', n===name); });
+    $('#nav').classList.toggle('on', name!=='home');
+    $('#reply').classList.toggle('on', name!=='home');
+    $$('.seg button').forEach(function(b){ b.setAttribute('aria-selected', b.getAttribute('data-go')===name?'true':'false'); });
+    refreshReply();
+    window.scrollTo(0,0);
+    try{ history.replaceState(null,'', name==='home' ? location.pathname+location.search : '#'+name); }catch(_){}
+  }
+  $$('[data-go]').forEach(function(b){ b.addEventListener('click',function(){ show(b.getAttribute('data-go')); }); });
+  var h=(location.hash||'').replace('#','');
+  if(h==='meta'||h==='google') show(h);
+})();
+
+</script>
+</body>
+</html>
